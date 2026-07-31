@@ -362,7 +362,7 @@ const MODULES={
   sport:{ico:'🏃',name:'运动打卡',tabs:['💪 当日运动','📏 身体数据'],useDate:true},
   tarot:{ico:'🔮',name:'塔罗日记',tabs:['🃏 今日抽牌'],useDate:true,canDel:true},
   tree:{ico:'🌳',name:'小树洞',tabs:['✏️ 日常随笔','🌈 情绪记录','⭐ 愿望清单','💡 灵感收集']},
-  media:{ico:'📹',name:'自媒体',tabs:['💡 选题灵感','✅ 爆款二创']},
+  media:{ico:'📹',name:'自媒体',tabs:['💡 选题灵感','✅ 爆款二创','📚 选题灵感库']},
   travel:{ico:'✈️',name:'旅行',tabs:['🧳 行李清单','📋 行程攻略']},
 };
 
@@ -459,7 +459,7 @@ function pickPhoto(cb){
 function planData(){if(!db.plan)db.plan={};if(!db.plan[state.date])db.plan[state.date]={};return db.plan[state.date];}
 
 /* --- 饮食（双子标签：补品类｜饮食） --- */
-const MEALS=[['breakfast','🌅 早餐'],['lunch','🌞 午餐'],['dinner','🌙 晚餐']];
+const MEALS=[['breakfast','🍽️ 饮食']];
 function renderPlanDiet(){
   const d=planData();
   const isSupp=(state.dietSub==='supp');
@@ -524,7 +524,7 @@ function renderPlanDiet(){
     </div>`;
   }
   /* 未归属到三餐的食物（如从热量模块添加的）*/
-  const otherFoods=cd.foods.filter(f=>!['breakfast','lunch','dinner'].includes(f.meal));
+  const otherFoods=cd.foods.filter(f=>!['breakfast'].includes(f.meal));
   if(otherFoods.length){
     mealHtml+=`<div class="card"><div class="card-title">🍪 加餐 / 其他 <span class="tag">🔥 ${otherFoods.reduce((a,b)=>a+(+b.kcal||0),0)} kcal</span></div>
       ${otherFoods.map(foodItem).join('')}</div>`;
@@ -545,7 +545,7 @@ function renderPlanDiet(){
 }
 function switchDiet(v){state.dietSub=v;renderAll();}
 function mealEdit(k,field,v){const d=planData();if(!d.meals)d.meals={};if(!d.meals[k])d.meals[k]={};d.meals[k][field]=v;save();}
-for(const [k] of [['breakfast'],['lunch'],['dinner']]){
+for(const [k] of [['breakfast']]){
   window['setMeal_'+k]=(data)=>{mealEdit(k,'photo',data);mealEdit(k,'time',nowTime());renderAll();};
 }
 
@@ -647,7 +647,7 @@ function renderAccToday(){
       </div>
       <div style="flex:1;display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
         <span class="acc-bud-label">日预算</span>
-        <span class="acc-bud-num" onclick="setDailyBudgetPrompt()">¥${dailyBudget}</span>
+        <span class="acc-bud-num" style="cursor:default;">¥${dailyBudget}<span style="font-size:10px;color:var(--sub);margin-left:2px;">自动</span></span>
       </div>
     </div>
   </div>
@@ -690,13 +690,7 @@ function accEdit(id,k,v){const r=accRecords().find(x=>x.id===id);if(r){r[k]=v;sa
 function accDel(id){db.account.records=accRecords().filter(x=>x.id!==id);save();renderAll();}
 function monthRecs(){const m=state.date.slice(0,7);return accRecords().filter(r=>r.date.slice(0,7)===m);}
 function getBudget(){return (db.account&&db.account.budget)||3000;}
-function getDailyBudget(){return (db.account&&db.account.dailyBudget)||0;}
-function setDailyBudget(v){
-  const n=parseFloat(v);
-  if(isNaN(n)||n<0){alert('请输入有效数字哦～');return;}
-  if(!db.account)db.account={};
-  db.account.dailyBudget=n;save();renderAll();
-}
+function getDailyBudget(){const b=getBudget();const m=(state.date||'').slice(0,7);if(!m||!b)return 0;const days=new Date(+m.slice(0,4),+m.slice(5,7),0).getDate();return Math.round(b/days);}
 function setBudgetPrompt(){
   const cur=getBudget();
   const v=prompt('设置本月预算（元）：',String(cur));
@@ -705,15 +699,6 @@ function setBudgetPrompt(){
   if(isNaN(n)||n<0){alert('请输入有效数字哦～');return;}
   if(!db.account)db.account={};
   db.account.budget=n;save();renderAll();
-}
-function setDailyBudgetPrompt(){
-  const cur=getDailyBudget();
-  const v=prompt('设置日预算（元）：',String(cur||''));
-  if(v===null)return;
-  const n=parseFloat(v);
-  if(isNaN(n)||n<0){alert('请输入有效数字哦～');return;}
-  if(!db.account)db.account={};
-  db.account.dailyBudget=n;save();renderAll();
 }
 
 function renderAccMonth(){
@@ -1370,46 +1355,60 @@ function renderMediaTopic(){
     <div class="todo-item">
       <span>💡</span>
       <div class="todo-body">
-        <div style="font-weight:600;">${esc(t.title)}</div>
-        <div style="font-size:11px;color:var(--sub);">${esc(t.platform||'')} · ${esc(t.category||'')} · ${t.date||''}</div>
+        <input class="todo-text" value="${esc(t.title)}" placeholder="灵感内容…" onchange="mediaEditTopic('${t.id}',this.value)">
+        <div style="font-size:11px;color:var(--sub);">${esc(t.platform||'')}${esc(t.category||'')?(' · '+esc(t.category)):''}${t.date?(' · '+t.date):''}</div>
       </div>
       <button class="del-btn" onclick="mediaDelTopic('${t.id}')">✕</button>
-    </div>`).join('')||'<div class="empty-tip">点上方「采集今日热点」开始建立你的灵感库</div>';
+    </div>`).join('')||'<div class="empty-tip">还没有灵感，下面手动添加一个吧～</div>';
   return `
   <div class="card">
-    <div class="card-title">📡 今日热点采集 <span class="tag">模拟每日9点更新</span></div>
-    <div style="font-size:13px;color:var(--sub);margin-bottom:10px;line-height:1.6;">
-      采集各平台「生活vlog赛道」爆款 → 自动拆解火爆原因 → 输出适配「沪漂打工人周末去哪儿」人设的原创思路
+    <div class="card-title">💡 添加选题灵感</div>
+    <div style="font-size:13px;color:var(--sub);margin-bottom:10px;">随手记一个灵感，可随时点开编辑</div>
+    <div class="packing-add-row" style="flex-direction:column;align-items:stretch;gap:8px;">
+      <input class="f-input" id="topicInput" placeholder="输入一个灵感，如：周末citywalk路线vlog" style="padding:14px 16px;font-size:16px;" onkeydown="if(event.key==='Enter')addTopicManual()">
+      <button class="add-btn-grad" onclick="addTopicManual()" style="align-self:flex-end;padding:6px 18px;font-size:13px;">添加</button>
     </div>
-    <button class="add-btn-grad" onclick="collectHotTopics()" style="width:100%;">📡 采集今日热点</button>
   </div>
   <div class="card">
-    <div class="card-title">📂 选题灵感库 <span class="tag">共${topics.length}条 · 永久存档</span></div>${topicList}
+    <div class="card-title">📂 我的灵感 <span class="tag">共${topics.length}条</span></div>
+    ${topicList}
   </div>`;
-}
-function collectHotTopics(){
-  const HOT_TEMPLATES=[
-    {title:'周末不花钱！上海5个免费拍照圣地📸',platform:'小红书',category:'城市探索',angle:'沪漂打工人周末去处·0元出大片'},
-    {title:'月薪8k在上海怎么存钱？我的极简记账法💰',platform:'小红书',category:'理财干货',angle:'打工人真实收支·引发共鸣'},
-    {title:'一人食｜便利店10块钱做出日剧同款晚餐🍱',platform:'抖音',category:'美食vlog',angle:'低成本精致生活·治愈系'},
-    {title:'通勤路上发现的神仙角落｜上海街拍日记🚶',platform:'小红书',category:'日常vlog',angle:'发现城市美好·慢节奏'},
-    {title:'租房改造｜800块把出租屋变成奶油风🏠',platform:'抖音/B站',category:'家居改造',angle:'低成本高颜值·实用教程'},
-    {title:'打工人下班后的「微醺时间」｜居家调酒🍷',platform:'小红书',category:'生活方式',angle:'独居仪式感·情绪价值'},
-    {title:'挑战一周外卖不超过50元！便当食谱合集🍱',platform:'抖音',category:'省钱攻略',angle:'打工人痛点·实操性强'},
-    {title:'上海地铁末班车｜遇见深夜还在努力的人🚇',platform:'B站/抖音',category:'人文记录',angle:'情感共鸣·城市故事'},
-  ];
-  /* 随机选3-4条 */
-  const shuffled=[...HOT_TEMPLATES].sort(()=>Math.random()-.5).slice(0,3+Math.floor(Math.random()*2));
-  const md=mediaData();
-  shuffled.forEach(t=>{
-    md.topics.push({id:uid(),date:state.date,...t});
-  });
-  save();renderAll();
-  alert(`采集完成 ✨\n共 ${shuffled.length} 条选题灵感已加入灵感库`);
 }
 function mediaDelTopic(id){
   const md=mediaData();
   md.topics=(md.topics||[]).filter(x=>x.id!==id);save();renderAll();
+}
+function renderMediaTopicLib(){
+  const md=mediaData();
+  const topics=(md.topics||[]).slice().reverse();
+  const list=topics.map(t=>`
+    <div class="todo-item" style="cursor:default;">
+      <span>💡</span>
+      <div class="todo-body">
+        <div style="font-weight:600;">${esc(t.title)}</div>
+        <div style="font-size:11px;color:var(--sub);">${esc(t.platform||'')}${esc(t.category||'')?(' · '+esc(t.category)):''}${t.date?(' · '+t.date):''}</div>
+      </div>
+    </div>`).join('')||'<div class="empty-tip">「选题灵感」里添加的灵感会自动汇总到这里</div>';
+  return `
+  <div class="card">
+    <div class="card-title">📚 选题灵感库 <span class="tag">自动汇总 · 共${topics.length}条</span></div>
+    <div class="hint">这里自动记录「选题灵感」中的所有灵感，方便统一查阅与复用</div>
+    ${list}
+  </div>`;
+}
+function addTopicManual(){
+  const inp=document.getElementById('topicInput');
+  const title=(inp&&inp.value||'').trim();
+  if(!title)return;
+  const md=mediaData();
+  if(!md.topics)md.topics=[];
+  md.topics.unshift({id:uid(),title,platform:'',category:'',date:state.date,manual:true});
+  save();if(inp)inp.value='';renderAll();
+}
+function mediaEditTopic(id,v){
+  const md=mediaData();
+  const t=(md.topics||[]).find(x=>x.id===id);
+  if(t){t.title=v;save();}
 }
 function renderMediaViral(){
   return `
@@ -1610,7 +1609,7 @@ const RENDERERS={
   sport:[renderSportDay,renderSportBody],
   tarot:[renderTarot],
   tree:[renderTreeEssay,renderTreeMood,renderTreeWish,renderTreeIdea],
-  media:[renderMediaTopic,renderMediaViral],
+  media:[renderMediaTopic,renderMediaViral,renderMediaTopicLib],
   travel:[renderTravelPacking,renderTravelItinerary],
 };
 
