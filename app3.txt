@@ -1,0 +1,234 @@
+
+Object.assign(TAROT_DB,{'圣杯四':{kw:'倦怠 · 沉思 · 视而不见 · 重新评估',up:'坐在树下对递来的杯子无动于衷——拥有的很多，却感觉不到快乐。这是「情感倦怠期」：不是没有机会，是你没看见。抬头看看。',down:'走出倦怠、重新接受，或彻底陷入麻木。也可能是终于愿意抓住机会了。',lu:'对现有关系厌倦，或对示好无感。',ld:'走出低潮愿意再爱，或彻底关闭心门。',wu:'工作提不起劲，觉得一切重复。',wd:'重燃兴趣，或决定换个环境。',mu:'对现有收入不满足但也不行动。',md:'错失财务机会。'},
+'圣杯五':{kw:'失落 · 遗憾 · 哀悼 · 尚有余存',up:'三个杯子倒了，但身后还有两个立着。这是「悲伤但未至绝境」的牌：损失确实发生了，请允许自己难过——然后记得回头看看剩下的。',down:'走出悲伤、开始释怀，或仍然沉溺无法自拔。转身就能看见希望。',lu:'失恋、遗憾、后悔。但故事还没完。',ld:'慢慢走出来，或终于放下执念。',wu:'项目失利、结果不如预期。',wd:'从挫折中恢复，或困在失败里。',mu:'有损失但不至于全盘皆输。',md:'为失去的钱耿耿于怀，影响后续判断。'},
+'圣杯六':{kw:'回忆 · 童年 · 纯真 · 旧人旧事',up:'孩子递花给另一个孩子——温暖、纯粹、不带算计。过去的美好正在滋养你，或有故人重逢、旧地重游。也象征来自童年的礼物。',down:'活在过去、无法前行，或被回忆美化了的东西困住。回忆是用来珍藏的，不是用来住的。',lu:'旧情复燃、青梅竹马，或纯真的感情。',ld:'忘不掉前任，拿现在的人和过去比。',wu:'老同事老关系带来机会，或回到熟悉的领域。',wd:'固守旧方法，跟不上变化。',mu:'家人资助或旧投资有回报。',md:'为怀旧花冤枉钱。'},
+'圣杯七':{kw:'选择 · 幻想 · 诱惑 · 眼花缭乱',up:'云中浮现七个杯子，装着财富、爱情、荣耀……都很诱人，但有些是幻象。选项太多反而难选。分清「想象的」和「真实的」。',down:'看清现实、做出选择，或彻底迷失在幻想里。脚踏实地，选一条走到底。',lu:'选择太多难以定心，或对方只是你的想象。',ld:'认清现实，或幻想破灭。',wu:'机会很多但要甄别，别被画饼骗了。',wd:'终于聚焦，或计划全是空想。',mu:'投资选项多但需谨慎，警惕高回报陷阱。',md:'被虚假项目吸引，或空想发财。'},
+'圣杯八':{kw:'离开 · 转身 · 追寻更深 · 主动放下',up:'背对八个杯子走向远山——明明拥有却选择离开，因为知道那不是你要的。这是有勇气的告别：为了更重要的东西，放弃眼前的安稳。',down:'想走又走不掉，反复回头。或漫无目的地逃离。搞清楚你是在追寻还是在逃避。',lu:'主动结束一段关系，或为了成长而分开。',ld:'藕断丝连，走不干净。',wu:'辞职、转行，去追寻更有意义的事。',wd:'想走不敢走，在原地耗着。',mu:'放弃眼前小利换长远收益。',md:'舍不得沉没成本，越陷越深。'},
+'圣杯九':{kw:'愿望成真 · 满足 · 享受 · 心愿之牌',up:'被称为「愿望牌」——抱臂而坐，身后九杯排开，一副心满意足的样子。你想要的正在实现。享受这份满足，你值得。',down:'愿望落空或得到了却不开心。也可能是贪得无厌、只顾享乐。',lu:'感情如愿以偿，甜蜜满足。',ld:'期待落空，或关系流于表面享乐。',wu:'目标达成，工作带来成就感。',wd:'成果不如预期，或自满停滞。',mu:'财运极佳，愿望清单可以实现了。',md:'挥霍无度，或空欢喜一场。'},
+'圣杯十':{kw:'圆满 · 家庭 · 幸福 · 情感巅峰',up:'彩虹下一家人张开双臂——情感层面最圆满的牌。家庭和乐、关系稳固、被爱包围。这不是激情，是踏实的幸福感。',down:'家庭失和、表面完美内里空洞，或对幸福的定义被他人绑架。',lu:'走向婚姻和家庭，长久幸福。',ld:'貌合神离，或家庭因素造成压力。',wu:'工作与生活平衡，团队像家人。',wd:'工作影响家庭，或团队貌合神离。',mu:'家庭财务稳固，共同资产增长。',md:'家庭开销大，或因钱伤感情。'},
+'圣杯侍从':{kw:'纯真情感 · 直觉 · 创意萌芽 · 好消息',up:'杯中跳出一条鱼——意料之外的灵感和情感讯息。会收到甜蜜的消息、示好的信号，或冒出天马行空的创意。相信第一直觉。',down:'情绪化、玻璃心，或消息落空。天真是好事，但也要有保护自己的能力。',lu:'收到告白或暧昧信号，青涩美好。',ld:'不成熟的感情，或被辜负。',wu:'创意萌芽期，适合尝试新表达。',wd:'想法不切实际，或情绪影响工作。',mu:'小惊喜、小红包。',md:'因情绪或直觉乱花钱。'},
+'圣杯骑士':{kw:'浪漫 · 追求 · 深情 · 理想主义者',up:'骑白马缓缓前行，手捧圣杯——温柔而坚定的追求者。这是「深情告白」的牌：浪漫邀约、艺术气质、跟随心的指引。',down:'情绪化、忽冷忽热，或用浪漫包装不负责任。也可能是过度理想化对方。',lu:'有人在认真追你，或你该主动示爱了。',ld:'对方只说不做，或感情不稳定。',wu:'适合艺术、创意、需要感染力的工作。',wd:'想法浪漫但落地困难。',mu:'因才华和魅力得财。',md:'为浪漫花钱不理性。'},
+'圣杯王后':{kw:'共情 · 温柔 · 直觉深 · 情感容器',up:'凝视杯中的女王——高度敏感、共情力强，能读懂别人没说出口的情绪。你是身边人的情感依靠。也提醒你：温柔是天赋，不是义务。',down:'情绪泛滥、过度共情、被他人情绪吞没。也可能是情感操控或自我封闭。',lu:'深情包容的伴侣，关系温暖治愈。',ld:'情绪内耗，或用眼泪控制对方。',wu:'适合咨询、照护、需要同理心的工作。',wd:'把情绪带进工作，或过度承担他人问题。',mu:'凭直觉理财意外准确。',md:'心软借钱出去，或因情绪乱花。'},
+'圣杯国王':{kw:'情感成熟 · 包容 · 沉稳 · 智慧之爱',up:'在波涛中稳坐的国王——情绪成熟到能容纳风浪。懂得爱，也懂得界限。是可以倾诉的对象，也可能指一位温厚可靠的长者。',down:'情感压抑或操控，表面温和内里控制。也可能是情绪失控、借酒消愁。',lu:'成熟稳重的伴侣，给得起安全感。',ld:'情感勒索、若即若离，或压抑真实感受。',wu:'人际处理得当，是团队的定海神针。',wd:'表面和气实则疏离，或用情绪影响他人。',mu:'理性与感性兼顾的财务决策。',md:'因人情往来破财。'},
+/* ── 宝剑 Swords · 风 · 思维与沟通 ── */
+'宝剑一':{kw:'风元素 · 突破 · 真相 · 思维清晰 · 一刀两断',up:'云中之手举起一把剑，剑尖挑着皇冠——混沌被劈开了。这是「想通了」的瞬间：真相浮现、思路清晰、做出果断决定。有话直说，此刻锋利是优点。',down:'思维混乱、钻牛角尖，或用言语伤人。也可能是有话说不出口，憋成内伤。',lu:'把话说开，关系反而更清楚。也可能是快刀斩乱麻。',ld:'沟通不畅、话不投机，或言语伤害。',wu:'思路清晰、方案获批，适合谈判和决策。',wd:'判断失误、信息错乱。',mu:'看清了财务真相，做对了决定。',md:'误判形势，或合约有陷阱。'},
+'宝剑二':{kw:'僵局 · 两难 · 蒙眼 · 逃避决定',up:'蒙着眼交叉双剑——你在回避一个必须做的选择。不看不代表不存在。此刻需要的是摘下眼罩，诚实面对内心真正的倾向。',down:'僵局打破、做出决定，或彻底陷入瘫痪。也可能是被迫摊牌。',lu:'在两人之间摇摆，或对关系装作没看见。',ld:'真相被揭开，或不得不做出选择。',wu:'方案僵持不下，需要有人拍板。',wd:'终于决断，或矛盾激化。',mu:'财务决策拖延，观望中。',md:'拖到错过时机，被动承担损失。'},
+'宝剑三':{kw:'心碎 · 伤痛 · 真相之痛 · 必要的割舍',up:'三把剑穿心，背景是雨云。痛是真的，但这种痛来自「终于看清」。伤口需要被承认才能愈合。允许自己哭一场，雨会停的。',down:'正在疗愈，或拒绝面对伤口任其溃烂。也可能是旧伤被重新掀开。',lu:'分离、背叛、争吵带来的伤害。',ld:'慢慢愈合，或困在痛苦里出不来。',wu:'被批评、被否定，或坏消息。',wd:'从打击中恢复，或积怨已久。',mu:'财务损失带来的挫败。',md:'旧账翻出，或损失比想象大。'},
+'宝剑四':{kw:'休息 · 静养 · 暂停 · 恢复期',up:'骑士躺在石棺上休息，剑挂在墙上——这不是结束，是中场休息。身心都需要恢复。此刻的停下来，是为了走更远。给自己批个假。',down:'被迫停下（生病、强制休息），或休息太久不想动了。也可能是终于要重新出发。',lu:'关系进入冷静期，各自安静一下。',ld:'长期冷淡，或重新联系。',wu:'项目暂停、请假休整。别硬撑。',wd:'被迫停工，或复工在即。',mu:'财务活动暂停，观望期。',md:'被动停止投入，或该重启计划了。'},
+'宝剑五':{kw:'惨胜 · 冲突 · 自私的赢 · 代价',up:'赢了，但对手都走了——这是「赢了道理输了感情」的牌。想清楚这场仗值不值得打，有些胜利的代价太高。',down:'冲突结束、和解，或彻底撕破脸。也可能是终于愿意退一步。',lu:'争吵中一定要赢，把人推得更远。',ld:'和好或彻底决裂。',wu:'职场斗争、抢功劳。赢了也别得意。',wd:'冲突缓和，或被彻底孤立。',mu:'为小利争执，失了大局。',md:'因计较而破财，或诉讼纠纷。'},
+'宝剑六':{kw:'过渡 · 离开 · 平静的迁移 · 疗伤之旅',up:'小船载着人驶向对岸，水面渐渐平静。最难的部分过去了，正在往更好的地方去。适合搬迁、旅行、换环境。带着伤，但在前进。',down:'走不掉、反复回头，或旅程受阻。也可能是终于愿意离开了。',lu:'关系进入平静期，或带着遗憾各自走开。',ld:'想分又分不干净，或复合。',wu:'转职、调岗、换环境，一切在好转。',wd:'想走走不了，被困在原地。',mu:'财务状况缓慢改善。',md:'资金周转困难，进展缓慢。'},
+'宝剑七':{kw:'策略 · 隐瞒 · 独自行动 · 投机',up:'偷偷抱走五把剑的人——这是「不走寻常路」的牌。可以理解为聪明的策略和保留实力，也可能是有人在暗中动手脚。多留个心眼。',down:'阴谋败露、真相曝光，或自首坦白。也可能是终于决定光明正大来。',lu:'有所隐瞒、不够坦诚，或第三者暗中活动。',ld:'谎言被戳穿，或选择坦白。',wu:'战术性保留信息，也要防同事使绊子。',wd:'被揭发，或识破了别人的把戏。',mu:'投机取巧的收益，风险不小。',md:'被骗、被偷、财务欺诈。看紧钱包。'},
+'宝剑八':{kw:'自我设限 · 受困感 · 画地为牢 · 其实能走',up:'被绑着蒙眼站在剑阵中——但脚下是松的，绳子也没系死。困住你的是恐惧和自我否定，不是现实。睁开眼，你比想的自由。',down:'正在挣脱束缚，或彻底放弃抵抗。钥匙一直在你自己手里。',lu:'在关系中感到窒息，却不敢离开。',ld:'终于走出来，或更深地陷进去。',wu:'工作环境压抑，觉得没得选。其实有。',wd:'突破困局，或彻底认命。',mu:'被财务状况绑住手脚。',md:'摆脱经济束缚，或负担加重。'},
+'宝剑九':{kw:'焦虑 · 失眠 · 忧惧 · 半夜惊醒',up:'坐在床上掩面哭泣——最深的恐惧往往发生在半夜。焦虑、内疚、想太多。但请记得：脑子编的恐怖片，通常不会上映。',down:'焦虑在缓解，或已经到了必须求助的程度。说出来会好很多。',lu:'因猜疑而焦虑，或为感情失眠。',ld:'走出情绪低谷，或濒临崩溃。',wu:'工作压力导致精神紧绷。',wd:'压力缓解，或必须停下来休息。',mu:'为钱焦虑，担心未来。',md:'财务恐慌，需要正视而非逃避。'},
+'宝剑十':{kw:'终结 · 谷底 · 触底反弹 · 最坏已过',up:'十把剑插在背上，但远方天已经亮了。这是最戏剧化的结束——彻底、不留余地。好消息是：跌到底了，接下来只能往上。',down:'正在复原，或不肯承认已经结束。也可能是最坏的情况被避免了。',lu:'关系彻底结束，背叛或伤害。',ld:'慢慢走出来，或还在原地流血。',wu:'项目彻底失败、被辞退。重新开始吧。',wd:'缓慢恢复，或危机解除。',mu:'财务触底，重整旗鼓的时候。',md:'损失已成定局，但也到头了。'},
+'宝剑侍从':{kw:'好奇 · 求知 · 警觉 · 消息灵通',up:'少年持剑警觉张望——脑子转得飞快，好奇心旺盛。适合学习、调查、收集信息。会有消息传来，保持敏锐。',down:'多嘴多舌、传播是非，或消息不实。管好自己的嘴，也别轻信。',lu:'用聊天和智慧吸引对方，但别耍小聪明。',ld:'言语伤人、八卦影响感情。',wu:'适合学习和调研，新知识带来突破。',wd:'信息有误、口舌是非。',mu:'学到理财新知，小试身手。',md:'听信小道消息而亏损。'},
+'宝剑骑士':{kw:'果断 · 冲锋 · 思维敏捷 · 直言不讳',up:'顶风疾驰的骑士——雷厉风行、说到做到。思路快、反应快、行动快。适合需要果断出击的场合，别磨蹭。',down:'鲁莽、说话伤人、横冲直撞。锋利过头会割伤别人，也割伤自己。',lu:'直接热烈的表达，但可能太急太冲。',ld:'言语冲突，或来去匆匆。',wu:'执行迅速、逻辑清晰，能打硬仗。',wd:'急躁出错，或与人正面冲突。',mu:'快速决策带来收益。',md:'草率决定导致亏损。'},
+'宝剑王后':{kw:'理性 · 独立 · 洞察 · 明辨是非',up:'独自坐在王座上，一手持剑一手前伸——聪明、独立、看得透。不被情绪左右，能给出中肯建议。经历过一些事，所以清醒。',down:'冷漠尖刻、拒人千里，或用理性掩饰受伤。偶尔感性一下不会死。',lu:'理性看待感情，或因太清醒而难以投入。',ld:'冷战、言语刻薄，或独身主义。',wu:'判断精准、专业过硬，是可靠的军师。',wd:'过于挑剔，或与同事关系疏离。',mu:'理财头脑清晰，决策理性。',md:'过度计较，或错失感性带来的机会。'},
+'宝剑国王':{kw:'权威 · 客观 · 逻辑 · 专业判断',up:'正襟危坐持剑的国王——理智、公正、有专业权威。适合寻求法律、财务、专业方面的建议。真理面前不讲情面。',down:'刻薄严苛、滥用权力，或钻牛角尖不近人情。道理都对，就是不像人话。',lu:'理性成熟的伴侣，但可能缺乏温度。',ld:'强势说教、冷暴力。',wu:'专业能力受认可，适合决策岗位或咨询。',wd:'固执己见、批判过度。',mu:'财务判断专业可靠。',md:'因过度理性错过机会，或涉及法律纠纷。'},
+/* ── 星币 Pentacles · 土 · 物质与务实 ── */
+'星币一':{kw:'土元素 · 物质起点 · 实际机会 · 财运萌芽',up:'云中之手托出一枚金币，脚下是花园。这是最实在的好牌：新工作、新收入、有形的机会摆在眼前。抓住它，然后踏实经营。',down:'机会溜走、投资失利，或过度看重物质。也可能是准备不足错失良机。',lu:'关系有现实基础，稳定务实地开始。',ld:'现实条件成为阻碍。',wu:'新工作、新项目，起点扎实。',wd:'机会没抓住，或起步困难。',mu:'财运开启，有实际进账。',md:'投资失利，或计划不周。'},
+'星币二':{kw:'平衡 · 多工 · 灵活调度 · 收支周转',up:'一边跳舞一边抛接两枚金币——同时应付多件事还能保持节奏。适合斜杠、兼职、多线操作。灵活是你的本事，但别接太多。',down:'顾此失彼、周转不灵，或忙到失衡。砍掉一些，专注核心。',lu:'在感情和其他事之间难以平衡。',ld:'时间精力不够，关系被忽略。',wu:'多任务并行，需要好的时间管理。',wd:'分身乏术、效率下降。',mu:'多渠道收入，资金调度灵活。',md:'拆东墙补西墙，现金流吃紧。'},
+'星币三':{kw:'协作 · 技艺 · 专业认可 · 打好基础',up:'工匠在教堂里施工，旁边有人指点——专业能力被看见，团队配合出成果。适合学习技能、参与合作、把手艺练精。',down:'配合不佳、质量不达标，或能力不被认可。方法比蛮干重要。',lu:'一起经营关系，为共同目标努力。',ld:'不同调、缺乏配合。',wu:'团队协作出成果，专业获得认可。',wd:'合作不顺、成果平庸。',mu:'靠专业技能变现。',md:'投入产出不成正比。'},
+'星币四':{kw:'守成 · 掌控 · 保守 · 安全感',up:'紧抱金币的人——积累和守护。财务稳定、懂得存钱、掌控资源。安全感是自己给的。但别抱太紧。',down:'吝啬、恐惧失去、不敢投资，或反过来是终于愿意松手分享了。钱是流动才有价值的。',lu:'占有欲强，或关系中太计较。',ld:'学会放手，或因控制欲失去对方。',wu:'稳守现有位置，不愿冒险。',wd:'固守导致停滞，或终于愿意突破。',mu:'存款增加，财务稳固。',md:'守财过度错失机会，或突然失控消费。'},
+'星币五':{kw:'匮乏 · 困境 · 被排除感 · 求助',up:'两个人在雪中经过亮着灯的教堂——困难是真的，但帮助也是真的，只是你没抬头看。别硬扛，开口求助没什么丢人的。',down:'走出困境、境况好转，或长期陷在匮乏心态里。',lu:'患难见真情，或因现实压力受挫。',ld:'关系回暖，或因贫困而分离。',wu:'失业、收入受挫，处境艰难。',wd:'情况好转，或长期低迷。',mu:'经济紧张、周转困难。',md:'财务危机缓解，或负债加深。'},
+'星币六':{kw:'给予 · 慷慨 · 施与受 · 资源流动',up:'富人用天平衡量后施舍——关于「给予和接受」的平衡。你可能是给的人，也可能是被帮助的人。资源流动起来，才会更丰盛。',down:'施舍带着优越感，或接受帮助有附加条件。也可能是有借无还、付出不对等。',lu:'关系中付出与回报的平衡。',ld:'一方过度付出，或用金钱衡量感情。',wu:'获得资源支持，或提携他人。',wd:'资源分配不公，或帮助带有条件。',mu:'有贵人相助或收到馈赠。',md:'借贷纠纷，或被占便宜。'},
+'星币七':{kw:'耐心 · 评估 · 长期投资 · 静待花开',up:'农夫望着结果的葡萄藤沉思——种下去了，现在需要耐心。也是重新评估的时刻：这个方向值得继续投入吗？慢，但在长。',down:'急功近利、想赚快钱，或投入很久没回报而灰心。也可能该止损了。',lu:'关系需要时间培养，别催熟。',ld:'久等无果，怀疑值不值得。',wu:'项目在积累期，成果尚未显现。',wd:'投入产出比低，考虑换方向。',mu:'长期投资稳步增值。',md:'回报太慢，资金效率低。'},
+'星币八':{kw:'专注 · 精进 · 工匠精神 · 熟能生巧',up:'埋头敲打金币的工匠——重复、专注、把一件事做到极致。这是「练功期」的牌：现在的枯燥打磨，会变成日后的核心竞争力。',down:'敷衍了事、粗制滥造，或陷入无意义的重复。质量比数量重要。',lu:'用心经营关系，日久见真情。',ld:'关系变成例行公事，缺乏用心。',wu:'适合学技能、深耕专业，努力有回报。',wd:'工作枯燥无成长，或质量不过关。',mu:'靠手艺和努力稳定赚钱。',md:'付出多回报少，方法需要调整。'},
+'星币九':{kw:'独立富足 · 自给自足 · 享受成果 · 优雅',up:'女子在花园中，手上停着猎鹰——靠自己获得了物质和精神的自由。这是「不依附任何人」的富足感。享受你应得的舒适。',down:'物质依赖他人，或有钱却不快乐。也可能是过度追求外在体面。',lu:'独立自主的关系，或享受单身的自在。',ld:'因经济依附而失去自我。',wu:'凭实力获得地位，工作有成就感。',wd:'被工作绑架，或成果不属于自己。',mu:'经济独立，有被动收入。',md:'表面光鲜实则吃力，或过度消费。'},
+'星币十':{kw:'传承 · 家族 · 长久财富 · 圆满物质',up:'三代同堂的富足画面——不只是钱，是可以传下去的稳定。家族支持、长期资产、根基牢固。这是物质层面的圆满。',down:'家族纠纷、财产分配问题，或被物质价值观绑架。钱不该是唯一标准。',lu:'走向婚姻和家庭，被双方家人接纳。',ld:'家庭因素造成阻力，或因财产生嫌隙。',wu:'大机构、家族企业，长期稳定的事业。',wd:'体制僵化，或利益分配不均。',mu:'财富积累丰厚，适合置产传承。',md:'遗产纠纷，或家庭财务负担。'},
+'星币侍从':{kw:'学习 · 务实起步 · 专注新技能 · 稳扎稳打',up:'捧着金币专注端详的少年——认真学习、脚踏实地起步。适合报课、考证、开始一项需要长期积累的事。别嫌慢。',down:'眼高手低、缺乏耐性，或纸上谈兵。先把地基打好。',lu:'务实的追求者，或关系刚起步需要培养。',ld:'不够成熟，或现实条件不足。',wu:'新人期、学习期，态度决定高度。',wd:'学不进去，或好高骛远。',mu:'开始学理财，小额尝试。',md:'投资知识不足就下场。'},
+'星币骑士':{kw:'勤恳 · 可靠 · 稳步 · 慢工出细活',up:'骑着黑马静止不动的骑士——四张骑士里最稳的一个。不快，但绝不半途而废。可靠、负责、说到做到。踏实是最大的美德。',down:'固执僵化、进展太慢，或无聊到停滞。稳重和迟钝只有一线之隔。',lu:'可靠但不浪漫的对象，细水长流。',ld:'关系太平淡，缺乏火花。',wu:'工作稳定推进，靠谱是你的标签。',wd:'效率低下、墨守成规。',mu:'稳健积累，不冒险不亏钱。',md:'过于保守，跑不赢通胀。'},
+'星币王后':{kw:'务实 · 丰盛 · 照顾 · 生活家',up:'坐在花园王座上捧着金币——把生活和事业都经营得很好的人。务实、慷慨、懂得享受也懂得持家。有妈妈般的可靠感。',down:'物质主义、过度操劳，或用钱衡量一切。也可能是忽略了自己的需求。',lu:'顾家体贴的伴侣，给得起现实的安全感。',ld:'太现实、太计较，或过度付出。',wu:'工作生活兼顾，是团队的后勤保障。',wd:'操心过多、身心俱疲。',mu:'理财有方，家庭财务稳健。',md:'为家人过度支出，或物欲太强。'},
+'星币国王':{kw:'财富 · 事业成就 · 商业头脑 · 稳固权威',up:'坐在葡萄藤缠绕的王座上——白手起家的成功者。商业嗅觉敏锐、资源丰厚、能把想法变成钱。适合谈生意、做投资、承担大责任。',down:'贪婪、唯利是图，或固执守旧不肯创新。钱是工具，不是主人。',lu:'物质条件优越的伴侣，可靠但可能太重现实。',ld:'用钱衡量感情，或控制欲强。',wu:'事业有成、掌控资源，创业和管理都吉。',wd:'刚愎自用，或被利益蒙蔽判断。',mu:'财运顶峰，投资和经营都有大收获。',md:'贪心过度、扩张失控，或被钱奴役。'}
+});
+
+const TAROT_NAMES=Object.keys(TAROT_DB);
+/* 按《塔罗解牌字典》体例，把一张牌的完整释义组装成文本 */
+function tarotFullText(name,pos){
+  const d=TAROT_DB[name];if(!d)return '';
+  const rev=pos==='逆位';
+  return `【${name} · ${rev?'逆位':'正位'}】
+🏷 关键词：${d.kw}
+
+🔮 牌意：${rev?d.down:d.up}
+
+💕 感情：${rev?d.ld:d.lu}
+💼 事业：${rev?d.wd:d.wu}
+💰 财运：${rev?d.md:d.mu}`;
+}
+function tarotData(){if(!db.tarot)db.tarot={};if(!db.tarot[state.date])db.tarot[state.date]={cards:[]};return db.tarot[state.date];}
+
+function renderTarot(){
+  const t=tarotData();
+  const cardRows=t.cards.map(c=>`
+    <div class="rec-card">
+      <div class="rec-head">
+        <span style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;flex:1;">
+          <input class="f-input tarot-name-input" list="tarotDatalist" value="${esc(c.name)}" placeholder="输入牌名，如：愚人 / 权杖三" style="flex:1;min-width:120px;padding:10px 12px;font-size:14px;background:#F3EBFF;color:#8B6FC9;border-radius:10px;" onblur="tarotCardEdit('${c.id}','name',this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();tarotCardEdit('${c.id}','name',this.value);this.blur();}">
+          <select class="todo-time" style="background:#FDEFF5;color:var(--red);" onchange="tarotCardEdit('${c.id}','pos',this.value)">
+            <option ${c.pos==='正位'?'selected':''}>正位</option><option ${c.pos==='逆位'?'selected':''}>逆位</option>
+          </select>
+        </span>
+        <button class="del-btn" onclick="tarotCardDel('${c.id}')">✕</button>
+      </div>
+      <div class="f-row"><span class="f-label">🔮 单牌牌意（含关键词/感情/事业/财运 · 可编辑）</span>
+      <textarea class="f-area" style="min-height:190px;line-height:1.7;" onchange="tarotCardEdit('${c.id}','meaning',this.value)">${esc(c.meaning||'')}</textarea>
+      ${TAROT_DB[c.name]?`<button class="mini-btn" style="margin-top:6px" onclick="tarotResetMeaning('${c.id}')">🔄 恢复字典原文</button>`:''}</div>
+    </div>`).join('')||`<div class="rec-card">
+      <div class="rec-head">
+        <input class="f-input tarot-name-input" list="tarotDatalist" value="" placeholder="输入牌名开始，如：愚人 / 圣杯骑士" style="flex:1;padding:12px 14px;font-size:15px;background:#F3EBFF;color:#8B6FC9;border-radius:12px;" onblur="if(this.value.trim())tarotNewCard(this.value)" onkeydown="if(event.key==='Enter'&&this.value.trim()){event.preventDefault();tarotNewCard(this.value);this.value='';}">
+      </div>
+      <div class="hint">💡 输入任意78张塔罗牌名即可（支持大/小阿尔卡纳），牌意自动写入 🔮</div>
+    </div>`;
+  return `
+  <datalist id="tarotDatalist">${TAROT_NAMES.map(n=>`<option value="${n}">`).join('')}</datalist>
+  <div class="card"><div class="card-title">🖼 牌阵拍照记录 <span class="tag">${state.date}</span></div>
+    <div class="photo-box" onclick="pickPhoto('setTarotPhoto')">${t.photo?`<img src="${t.photo}">`:'📷 拍下今天的牌阵'}</div>
+    ${t.photo?`<button class="mini-btn" style="margin-top:8px" onclick="tarotEdit('photo','');renderAll()">🗑 删除照片</button>`:''}
+  </div>
+  <div class="card"><div class="card-title">❓ 抽牌问题</div>
+    <input class="f-input" value="${esc(t.question||'')}" placeholder="今天想问塔罗什么呢～" onchange="tarotEdit('question',this.value)">
+  </div>
+  <div class="card"><div class="card-title">🃏 今日抽牌 <span class="tag">78张全牌库 · 输入即查</span></div>
+    ${cardRows}<button class="add-btn" onclick="tarotCardAdd()">＋ 添加一张牌</button></div>
+  <div class="card"><div class="card-title">🧩 组合牌意 <span class="tag">自动生成 · 可编辑</span></div>
+    <textarea class="f-area" id="comboText" onchange="tarotEdit('combo',this.value)" placeholder="抽 2 张以上牌后点按钮生成解读～">${esc(t.combo||'')}</textarea>
+    <button class="add-btn-grad" style="width:100%;margin-top:8px;" onclick="tarotAutoCombo()">✨ 重新自动生成组合牌意</button>
+  </div>
+  <div class="card"><div class="card-title">🌟 牌意指导 <span class="tag">自动生成 · 可编辑</span></div>
+    <textarea class="f-area" id="guideText" onchange="tarotEdit('guide',this.value)" placeholder="抽牌后点按钮生成今日指导～">${esc(t.guide||'')}</textarea>
+    <button class="add-btn-grad" style="width:100%;margin-top:8px;" onclick="tarotAutoGuide()">✨ 重新自动生成指导</button>
+  </div>`;
+}
+window.setTarotPhoto=(data)=>{tarotEdit('photo',data);renderAll();};
+function tarotEdit(k,v){tarotData()[k]=v;save();}
+function tarotCardAdd(){tarotData().cards.push({id:uid(),name:'',pos:'正位',meaning:''});save();renderAll();}
+function tarotNewCard(name){
+  const n=(name||'').trim();
+  if(!n)return;
+  /* 模糊匹配：用户可能输入简写 */
+  let match=n;
+  if(!TAROT_DB[n]){
+    const found=TAROT_NAMES.find(k=>k.includes(n)||n.includes(k));
+    if(found)match=found;
+  }
+  const c={id:uid(),name:match,pos:'正位',meaning:''};
+  if(TAROT_DB[match])c.meaning=tarotFullText(match,'正位');
+  tarotData().cards.push(c);save();renderAll();
+}
+function tarotCardEdit(id,k,v){
+  const c=tarotData().cards.find(x=>x.id===id);if(!c)return;
+  c[k]=v;
+  if(k==='name'&&c.name&&!TAROT_DB[c.name]){
+    /* 模糊匹配：输「愚」→「愚人」 */
+    const f=TAROT_NAMES.find(x=>x.includes(c.name)||c.name.includes(x));
+    if(f)c.name=f;
+  }
+  if((k==='name'||k==='pos')&&c.name&&TAROT_DB[c.name]){
+    c.meaning=tarotFullText(c.name,c.pos||'正位');
+    save();renderAll();return;
+  }
+  save();/* 手改牌意时不重渲染，避免失焦跳动 */
+}
+function tarotResetMeaning(id){
+  const c=tarotData().cards.find(x=>x.id===id);if(!c||!TAROT_DB[c.name])return;
+  c.meaning=tarotFullText(c.name,c.pos||'正位');save();renderAll();
+}
+function tarotCardDel(id){const t=tarotData();t.cards=t.cards.filter(x=>x.id!==id);save();renderAll();}
+function tarotAutoCombo(){
+  try{
+    const t=tarotData();const cs=(t.cards||[]).filter(c=>c.name&&c.name.trim());
+    if(cs.length<2){alert('⚠️ 至少需要 2 张已选的牌才能生成组合牌意哦～\n当前已有 '+cs.length+' 张');return;}
+    const SUIT=[['权杖','🔥 火 · 行动与热情'],['圣杯','💧 水 · 情感与关系'],['宝剑','🗡 风 · 思维与沟通'],['星币','🪙 土 · 物质与务实']];
+    const lines=cs.map((c,i)=>{
+      const d=TAROT_DB[c.name];const rev=c.pos==='逆位';
+      if(!d)return `第${i+1}张：${c.name}${rev?'（逆位）':'（正位）'}\n→ (自定义牌，无字典数据)`;
+      return `第${i+1}张：${c.name}${rev?'（逆位）':'（正位）'}\n🏷 ${d.kw}\n→ ${rev?d.down:d.up}\n   💕${rev?d.ld:d.lu}\n   💼${rev?d.wd:d.wu}\n   💰${rev?d.md:d.mu}`;
+    });
+    /* 元素分布分析 */
+    const cnt={};cs.forEach(c=>{const s=SUIT.find(s=>c.name.startsWith(s[0]));cnt[s?s[0]:'大牌']=(cnt[s?s[0]:'大牌']||0)+1;});
+    const majorN=cnt['大牌']||0;
+    let el='';
+    if(majorN>=2&&majorN>=cs.length/2)el=`\n⚡ 大阿尔卡纳占了 ${majorN}/${cs.length} 张——这件事是命运级别的课题，不是小打小闹，值得认真对待。`;
+    const domi=SUIT.find(s=>(cnt[s[0]]||0)>=2&&(cnt[s[0]]||0)>=cs.length/2);
+    if(domi)el+=`\n⚡ ${domi[0]}牌集中出现——${domi[1]}，这是当前的主旋律。`;
+    const revN=cs.filter(c=>c.pos==='逆位').length;
+    const revTip=revN===0?'全为正位，能量顺畅，可以大胆推进。'
+      :revN===cs.length?'全为逆位，阻力明显，此刻宜内省、调整，先别硬推。'
+      :`${revN} 张逆位 / ${cs.length-revN} 张正位，顺逆交错——有机会也有功课，边走边校准。`;
+    t.combo=`🔮 「${cs.map(c=>c.name+(c.pos==='逆位'?'(逆)':'')).join(' + ')}」组合解读\n${'─'.repeat(30)}\n\n${lines.join('\n\n')}\n\n${'─'.repeat(30)}\n\n🌙 整体解读：\n这组牌像是一段从「${cs[0].name}」走向「${cs[cs.length-1].name}」的旅程。\n前者是你当下的处境与心境，后者指向事情发展的方向。\n\n⚖️ 能量走向：${revTip}${el}\n\n🎯 结合你的问题「${t.question||'未设置'}」细细体会，答案就在牌面之间✨`;
+    save();renderAll();
+    /* 确保 textarea 更新显示 */
+    setTimeout(()=>{const el=document.getElementById('comboText');if(el)el.value=t.combo;},100);
+  }catch(e){alert('生成出错：'+e.message);}
+}
+function tarotAutoGuide(){
+  try{
+    const t=tarotData();const cs=(t.cards||[]).filter(c=>c.name&&c.name.trim());
+    if(!cs.length){alert('⚠️ 先抽一张牌吧～目前还没有选牌');return;}
+    const last=cs[cs.length-1];
+    const d=TAROT_DB[last.name];const rev=last.pos==='逆位';
+    const meaning=d?(rev?d.down:d.up):'请跟随直觉感受这张牌的能量';
+    const advice=rev
+      ?'今天适合放慢脚步 🐢 先处理内在情绪，再面对外部课题；对自己温柔一点，不急于做重大决定。'
+      :'能量顺畅的一天 ☀️ 适合主动出击、推进重要计划；相信直觉，宇宙站在你这边。';
+    const detail=d?`\n\n🏷 核心关键词：${d.kw}\n\n💕 感情面：${rev?d.ld:d.lu}\n💼 事业面：${rev?d.wd:d.wu}\n💰 财运面：${rev?d.md:d.mu}`:'';
+    t.guide=`🌟 今日指导 · 以「${last.name}${rev?' 逆位':' 正位'}」为主轴\n${'─'.repeat(30)}\n\n${meaning}${detail}\n\n${'─'.repeat(30)}\n\n💫 行动建议：${advice}\n\n🎀 幸运提示：保持觉察，把牌面提示和「${t.question||'今日问题'}」对照，晚上回顾一下应验了哪些吧～`;
+    save();renderAll();
+    setTimeout(()=>{const el=document.getElementById('guideText');if(el)el.value=t.guide;},100);
+  }catch(e){alert('生成出错：'+e.message);}
+}
+
+/* ==================================================
+   6️⃣ 小树洞
+================================================== */
+const MOOD_EMOJIS=['😍','😊','😐','😢','😠','😭','😴','✨'];
+function treeList(k){if(!db.tree)db.tree={};if(!db.tree[k])db.tree[k]=[];return db.tree[k];}
+
+/* --- 日常随笔（保持原样）--- */
+function renderTreeEssay(){
+  const list=treeList('essay');
+  const cards=[...list].reverse().map(it=>`
+    <div class="rec-card">
+      <div class="rec-head"><span class="rec-date">🗓 ${esc(it.date)} ${esc(it.time||'')}</span><button class="del-btn" onclick="treeDel('essay','${it.id}')">✕</button></div>
+      <textarea class="f-area" style="min-height:60px" placeholder="今天的碎碎念、小感悟…" onchange="treeEdit('essay','${it.id}','text',this.value)">${esc(it.text||'')}</textarea>
+    </div>`).join('')||`<div class="rec-card">
+      <div class="rec-head"><span class="rec-date">🗓 ${todayStr()} ${nowTime()}</span></div>
+      <textarea class="f-area" style="min-height:60px" placeholder="今天的碎碎念、小感悟…" onchange="treeNew('essay',this.value)"></textarea>
+    </div>`;
+  return `<div class="card"><div class="card-title">✏️ 日常随笔 <span class="tag">私密 · 仅本机保存</span></div>
+    ${list.length?`<button class="add-btn" style="margin-bottom:12px" onclick="treeAdd('essay')">＋ 写一条新的</button>`:''}${cards}</div>`;
+}
+function treeNew(k,v){
+  if(!String(v).trim())return;
+  treeList(k).push({id:uid(),date:todayStr(),time:nowTime(),text:v,mood:'',term:'短期',done:false});
+  save();renderAll();
+}
+
+/* --- 情绪记录（截图3：emoji选择器+日记+记录按钮+历史本子）--- */
+let _pickMood='';
+function renderTreeMood(){
+  const list=treeList('mood');
+  /* 历史记录列表 */
+  const history=[...list].reverse().map(it=>`
+    <div class="rec-card">
+      <div class="rec-head"><span class="rec-date">🗓 ${esc(it.date)} ${esc(it.time||'')} <span style="font-size:18px;">${esc(it.mood)}</span></span><button class="del-btn" onclick="treeDel('mood','${it.id}')">✕</button></div>
+      <div style="white-space:pre-wrap;font-size:13px;color:var(--text);line-height:1.6;">${esc(it.text)||''}</div>
+    </div>`).join('')||'<div class="empty-tip">还没有情绪记录 🌸</div>';
+  return `
+  <div class="card">
+    <div class="card-title">🌈 今天心情如何？</div>
+    <div class="mood-picker">${MOOD_EMOJIS.map(m=>`<div class="mood-emo ${_pickMood===m?'sel':''}" onclick="_pickMood='${m}';renderAll()">${m}</div>`).join('')}</div>
+    <textarea id="moodDiaryInput" class="mood-diary" placeholder="写写心情日记..." oninput="_moodDraft=this.value"></textarea>
+    <button class="add-btn-grad" onclick="saveMood()">记录心情 💖</button>
+  </div>
+  <div class="card">
+    <div class="card-title">📖 心情日记录本</div>${history}
+  </div>`;
+}
+function saveMood(){
+  if(!_pickMood){alert('先选一个心情表情吧～');return;}
+  const txt=document.getElementById('moodDiaryInput').document?document.getElementById('moodDiaryInput').value:'';
+  treeList('mood').push({id:uid(),date:todayStr(),time:nowTime(),text:txt||'',mood:_pickMood});
+  save();_pickMood='';renderAll();
+}
