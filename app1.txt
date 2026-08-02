@@ -17,7 +17,7 @@ const MODULES={
   plan:{ico:'📅',name:'每日计划',tabs:['🍱 饮食','📝 待办清单','🗓️ 日程规划'],useDate:true,canDel:true},
   account:{ico:'💰',name:'记账',tabs:['💴 今日收支','📊 月度账单','🎯 预算规划','🔍 消费复盘'],useDate:true},
   achieve:{ico:'🏆',name:'每日成就',tabs:['✅ 今日成果'],useDate:true,canDel:true},
-  recipe:{ico:'🍳',name:'每日食谱',tabs:['🥕 报食材配菜','🥗 低脂食谱','🎲 随机三餐']},
+  recipe:{ico:'🍳',name:'每日食谱',tabs:['🥕 报食材配菜','🎲 随机三餐']},
   sport:{ico:'🏃',name:'运动打卡',tabs:['💪 当日运动','📏 身体数据'],useDate:true},
   tarot:{ico:'🔮',name:'塔罗日记',tabs:['🃏 今日抽牌'],useDate:true,canDel:true},
   tree:{ico:'🌳',name:'小树洞',tabs:['✏️ 日常随笔','🌈 情绪记录','⭐ 愿望清单','💡 灵感收集']},

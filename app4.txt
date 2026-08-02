@@ -114,15 +114,6 @@ const RECIPE_DB={
     {name:'蒜蓉西兰花',cal:120,diff:'简单',tags:['低脂素'],ingredients:'西兰花、蒜末',steps:'①西兰花掰小朵焯水1分钟；②少油爆香蒜末下西兰花翻炒加盐。'},
   ],
 };
-/* 低脂食谱库 */
-const LOWFAT_RECIPES=[
-  {name:'鸡胸肉蔬菜沙拉',cal:320,ingredients:'🛒 食材清单：鸡胸肉150g、生菜、圣女果、黄瓜、玉米粒、油醋汁',steps:'👨‍🍳 ①鸡胸肉加盐黑胡椒腌10分钟，煎/水煮熟切片；②蔬菜洗净撕好装盘；③摆上鸡肉淋油醋汁拌匀。'},
-  {name:'虾仁西兰花',cal:260,ingredients:'🛒 食材清单：虾仁200g、西兰花1颗、蒜3瓣',steps:'👨‍🍳 ①西兰花焯水1分钟；②少油下蒜末爆香，下虾仁炒至变色；③加西兰花、盐、少许蚝油翻匀。'},
-  {name:'番茄巴沙鱼',cal:280,ingredients:'🛒 食材清单：巴沙鱼2片、番茄2个、金针菇',steps:'👨‍🍳 ①番茄炒出汁加水烧开；②下金针菇、巴沙鱼块煮5分钟；③盐、白胡椒调味，低脂高蛋白。'},
-  {name:'燕麦香蕉杯',cal:300,ingredients:'🛒 食材清单：燕麦40g、香蕉1根、牛奶200ml、坚果碎',steps:'👨‍🍳 ①燕麦加热牛奶泡3分钟；②香蕉切片铺上；③撒坚果碎，适合早餐/练后餐。'},
-  {name:'凉拌鸡丝荞麦面',cal:350,ingredients:'🛒 食材清单：鸡胸肉100g、荞麦面60g、黄瓜、胡萝卜、芝麻酱',steps:'👨‍🍳 ①鸡胸肉煮熟撕成丝；②荞麦面煮熟过凉水；③配黄瓜胡萝卜丝，淋调好的芝麻酱拌匀。'},
-  {name:'蒸蛋羹+清炒时蔬',cal:220,ingredients:'🛒 食材清单：鸡蛋2个、任意时蔬200g',steps:'👨‍🍳 ①蛋液加1.5倍温水搅匀过筛蒸8分钟；②时蔬少油清炒加盐即可。'},
-];
 /* 随机三餐搭配库 */
 const MEAL_COMBOS=[
   {breakfast:'燕麦粥+煎蛋+香蕉',lunch:'可乐鸡翅+蒜蓉西兰花+米饭',dinner:'番茄鸡蛋面一碗'},
@@ -183,21 +174,6 @@ function matchRecipes(){
   document.getElementById('recipeMatchResult').innerHTML=renderMatchCards(results);
 }
 
-function renderRecipeLowFat(){
-  return `
-  <div class="card">
-    <div class="card-title">🥗 今日低脂食谱推荐</div>
-    ${LOWFAT_RECIPES.map(r=>`
-    <div class="rec-card" style="border-left:4px solid #7BC496;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-        <span style="font-size:16px;font-weight:700;color:var(--red);">${r.name}</span>
-        <span style="color:#7BC496;font-weight:700;font-size:13px;">约${r.cal}kcal</span>
-      </div>
-      <div style="font-size:11px;color:var(--sub);margin-bottom:4px;">${r.ingredients}</div>
-      <div style="font-size:12px;color:var(--text);line-height:1.6;background:rgba(123,196,150,.08);padding:8px;border-radius:10px;">${r.steps}</div>
-    </div>`).join('')}
-  </div>`;
-}
 
 function renderRecipeRandom(){
   const idx=Math.floor(Math.random()*MEAL_COMBOS.length);
@@ -551,7 +527,7 @@ const RENDERERS={
   plan:[renderPlanDiet,renderPlanTodo,renderPlanSchedule],
   account:[renderAccToday,renderAccMonth,renderAccBudget,renderAccReview],
   achieve:[renderAchieve],
-  recipe:[renderRecipeMatch,renderRecipeLowFat,renderRecipeRandom],
+  recipe:[renderRecipeMatch,renderRecipeRandom],
   sport:[renderSportDay,renderSportBody],
   tarot:[renderTarot],
   tree:[renderTreeEssay,renderTreeMood,renderTreeWish,renderTreeIdea],

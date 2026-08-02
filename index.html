@@ -6,35 +6,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="😈 工作台">
-<link rel="manifest" href="./manifest.json">
-<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
-<link rel="apple-touch-icon" href="./icon-180.png">
+<link rel="manifest" href="/manifest.json?x-cs-sandbox-id=f39dd63c9a5c4199a20a0adb13373ba1&x-cs-sandbox-port=8000">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png?x-cs-sandbox-id=f39dd63c9a5c4199a20a0adb13373ba1&x-cs-sandbox-port=8000">
+<link rel="apple-touch-icon" href="/icon-180.png?x-cs-sandbox-id=f39dd63c9a5c4199a20a0adb13373ba1&x-cs-sandbox-port=8000">
 <title>😈 工作台 · 少女风个人工作台</title>
 <script>
-/* ══════════════════════════════════════
-   缓存清除：干掉旧版 Service Worker 和缓存
-   只在首次加载时执行一次，之后不再重复
-   ══════════════════════════════════════ */
-(function(){
-  var key='gwb_cache_cleared_v4';
-  try{
-    if(localStorage.getItem(key)!=='yes'){
-      /* 注销所有旧 Service Worker */
-      if('serviceWorker' in navigator){
-        navigator.serviceWorker.getRegistrations().then(function(regs){
-          regs.forEach(function(r){r.unregister();});
-        });
-      }
-      /* 清除所有 Cache Storage */
-      if('caches' in window){
-        caches.keys().then(function(names){
-          names.forEach(function(n){caches.delete(n);});
-        });
-      }
-      localStorage.setItem(key,'yes');
-    }
-  }catch(e){}
-})();
 /* 防白屏：任何脚本错误都显示出来，而不是留一片空白 */
 window.__errShown=false;
 window.onerror=function(msg,src,line,col){
@@ -1849,7 +1825,7 @@ const RENDERERS={
 /* 桌面端默认展开侧边栏 */
 if(window.innerWidth>560)document.getElementById('sidebar').classList.remove('collapsed');
 renderAll();
-if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{});}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{});}
 /* 走到这里说明整个文件完整加载了 */
 window.__loadOK=true;
 setTimeout(function(){
