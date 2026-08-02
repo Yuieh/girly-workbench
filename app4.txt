@@ -1,0 +1,550 @@
+
+
+/* --- 愿望清单（截图4：短期/长期分组 + 输入框+圆形加号）--- */
+function renderTreeWish(){
+  const shortList=treeList('wish').filter(w=>w.term!=='长期');
+  const longList=treeList('wish').filter(w=>w.term==='长期');
+  const sp=JSON.stringify(['tree','wish']).replace(/"/g,'&quot;');
+  const wishItem=(it)=>`<div class="wish-item ${it.done?'done':''}">
+    <input type="checkbox" class="chk" style="width:20px;height:20px;border-radius:8px;" ${it.done?'checked':''} onchange="tToggle(${sp},'${it.id}')">
+    <input class="wish-text" value="${esc(it.text)}" onchange="tEdit(${sp},'${it.id}','text',this.value)">
+    <button class="del-btn" onclick="tDel(${sp},'${it.id}')">✕</button>
+  </div>`;
+  return `
+  <div class="card">
+    <div class="wish-group">
+      <div class="wish-group-title">🌷 短期心愿</div>
+      <div class="wish-hint">许个愿吧 ✨</div>
+      <div class="wish-input-row">
+        <input class="wish-input" id="wishShortIn" placeholder="想要实现...">
+        <button class="wish-add-btn" onclick="addWish('short')">＋</button>
+      </div>
+      ${shortList.length?shortList.map(wishItem).join(''):''}
+    </div>
+    <div class="wish-group" style="margin-top:24px;">
+      <div class="wish-group-title">🌟 长期心愿</div>
+      <div class="wish-hint">许个愿吧 ✨</div>
+      <div class="wish-input-row">
+        <input class="wish-input" id="wishLongIn" placeholder="想要实现...">
+        <button class="wish-add-btn" onclick="addWish('long')">＋</button>
+      </div>
+      ${longList.length?longList.map(wishItem).join(''):''}
+    </div>
+  </div>`;
+}
+function addWish(term){
+  const inp=document.getElementById(term==='short'?'wishShortIn':'wishLongIn');
+  const text=(inp&&inp.value)||'';
+  treeList('wish').push({id:uid(),date:todayStr(),time:nowTime(),text,term:term==='long'?'长期':'短期',done:false,mood:'',note:''});
+  save();if(inp)inp.value='';renderAll();
+}
+
+/* --- 灵感收集（截图5：大文本框+保存按钮+全部记录列表）--- */
+function renderTreeIdea(){
+  const list=treeList('idea');
+  const records=[...list].reverse().map(it=>`
+    <div class="rec-card">
+      <div class="rec-head"><span class="rec-date">🗓 ${esc(it.date)} ${esc(it.time||'')}</span><button class="del-btn" onclick="treeDel('idea','${it.id}')">✕</button></div>
+      <div style="white-space:pre-wrap;font-size:13px;color:var(--text);line-height:1.6;">${esc(it.text)||''}</div>
+    </div>`).join('')||'<div class="empty-tip">空空的，等你来写 🎀</div>';
+  return `
+  <div class="card">
+    <div class="card-title">💡 突发想法 · 文案 · 创意素材</div>
+    <textarea id="ideaInput" class="idea-textarea" placeholder="灵感闪现！快记下来…"></textarea>
+    <button class="add-btn-grad" onclick="saveIdea()">保存 📌</button>
+  </div>
+  <div class="card">
+    <div class="idea-list-title">📦 全部记录</div>${records}
+  </div>`;
+}
+function saveIdea(){
+  const inp=document.getElementById('ideaInput');
+  const text=(inp&&inp.value)||'';
+  if(!text.trim())return;
+  treeList('idea').push({id:uid(),date:todayStr(),time:nowTime(),text,mood:'',term:'',done:false,note:''});
+  save();if(inp)inp.value='';renderAll();
+}
+
+function treeAdd(k){treeList(k).push({id:uid(),date:todayStr(),time:nowTime(),text:'',mood:k==='mood'?'🥰':'',term:'短期',done:false});save();renderAll();}
+function treeEdit(k,id,f,v){const it=treeList(k).find(x=>x.id===id);if(it){it[f]=v;save();}}
+function treeDel(k,id){db.tree[k]=treeList(k).filter(x=>x.id!==id);save();renderAll();}
+
+/* ==================================================
+  🍳 每日食谱
+================================================== */
+const RECIPE_DB={
+  /* 食材→可做菜品映射（含热量/难度/步骤） */
+  '土豆':[
+    {name:'土豆炖牛肉',cal:420,diff:'中等',tags:['荤'],ingredients:'土豆、牛肉',steps:'①牛肉切块冷水下锅焯水；②热油炒糖色下牛肉翻炒；③加葱姜、生抽、老抽，加水没过牛肉炖40分钟；④下土豆块再炖15分钟收汁。'},
+    {name:'孜然牛肉',cal:380,diff:'简单',tags:['荤'],ingredients:'牛肉',steps:'①牛肉切片加生抽淀粉腌15分钟；②大火爆炒至变色；③撒孜然粉、辣椒粉、白芝麻。'},
+    {name:'土豆牛肉焖饭',cal:520,diff:'中等',tags:['主食'],ingredients:'土豆、牛肉、米饭',steps:'①牛肉粒土豆丁炒香调味；②铺在米上电饭煲焖煮模式。'},
+  ],
+  '牛肉':[
+    {name:'土豆炖牛肉',cal:420,diff:'中等',tags:['荤'],ingredients:'土豆、牛肉',steps:'①牛肉切块冷水下锅焯水；②热油炒糖色下牛肉翻炒；③加葱姜、生抽、老抽，加水没过牛肉炖40分钟；④下土豆块再炖15分钟收汁。'},
+    {name:'孜然牛肉',cal:380,diff:'简单',tags:['荤'],ingredients:'牛肉',steps:'①牛肉切片加生抽淀粉腌15分钟；②大火爆炒至变色；③撒孜然粉、辣椒粉、白芝麻。'},
+    {name:'番茄牛腩',cal:450,diff:'中等',tags:['荤'],ingredients:'番茄、牛腩',steps:'①牛腩焯水切块；②番茄炒出汁加水烧开；③下牛腩炖1小时至软烂。'},
+  ],
+  '鸡蛋':[
+    {name:'西红柿炒鸡蛋',cal:280,diff:'简单',tags:['素'],ingredients:'西红柿、鸡蛋',steps:'①鸡蛋打散加少许盐；②热油炒熟盛出；③西红柿炒出汁后倒入鸡蛋翻炒均匀。'},
+    {name:'蒸蛋羹',cal:150,diff:'简单',tags:['素'],ingredients:'鸡蛋',steps:'①蛋液1.5倍温水加盐搅匀过筛；②上锅蒸8-10分钟；③淋香油葱花。'},
+    {name:'青椒炒蛋',cal:260,diff:'简单',tags:['素'],ingredients:'青椒、鸡蛋',steps:'①青椒切丝；②鸡蛋炒熟盛出；③爆香青椒丝后混入鸡蛋。'},
+  ],
+  '鸡胸肉':[
+    {name:'香煎鸡胸',cal:250,diff:'简单',tags:['低脂荤'],ingredients:'鸡胸肉',steps:'①鸡胸肉切片用盐黑胡椒腌10分钟；②少油煎至两面金黄。'},
+    {name:'鸡胸肉蔬菜沙拉',cal:320,diff:'简单',tags:['低脂'],ingredients:'鸡胸肉、生菜、圣女果、黄瓜、玉米粒、油醋汁',steps:'①鸡胸肉加盐黑胡椒腌10分钟，煎/水煮熟切条片；②蔬菜洗净撕好装盘；③摆上鸡肉淋油醋汁拌匀。'},
+  ],
+  '虾仁':[
+    {name:'虾仁西兰花',cal:260,diff:'简单',tags:['低脂'],ingredients:'虾仁200g、西兰花1颗、蒜3瓣',steps:'①西兰花焯水1分钟；②少油下蒜末爆香，下虾仁炒至变色；③加西兰花、盐、少许蚝油翻炒匀。'},
+    {name:'清炒虾仁',cal:220,diff:'简单',tags:['低脂荤'],ingredients:'虾仁',steps:'①虾仁开背去虾线；②少油快炒变色即成。'},
+  ],
+  '巴沙鱼':[
+    {name:'番茄巴沙鱼',cal:280,diff:'简单',tags:['低脂'], ingredients:'巴沙鱼2片、番茄2个、金针菇',steps:'①番茄炒出汁加水烧开；②下金针菇、巴沙鱼块煮5分钟；③盐、白胡椒调味，低脂高蛋白。'},
+  ],
+  '燕麦':[
+    {name:'燕麦香蕉杯',cal:300,diff:'简单',tags:['早餐'],ingredients:'燕麦40g、香蕉1根、牛奶200ml、坚果碎',steps:'①燕麦加热牛奶泡3分钟；②香蕉切片铺上；③撒坚果碎，适合早餐/练后餐。'},
+  ],
+  '豆腐':[
+    {name:'麻婆豆腐',cal:350,diff:'中等',tags:['素'],ingredients:'豆腐、肉末',steps:'①肉末炒散出油；②加豆瓣酱炒香；③下嫩豆腐块轻推均匀，勾芡收汁。'},
+    {name:'凉拌豆腐',cal:180,diff:'简单',tags:['低脂素'],ingredients:'豆腐',steps:'①豆腐切块焯水；②淋生抽、香油、葱花即可。'},
+  ],
+  '茄子':[
+    {name:'鱼香茄子',cal:400,diff:'中等',tags:['素'],ingredients:'茄子',steps:'①茄子切条腌出水挤干；②炸至表面金黄；③调鱼香汁（糖醋比例1:1）翻炒。'},
+  ],
+  '西蓝花':[
+    {name:'蒜蓉西兰花',cal:120,diff:'简单',tags:['低脂素'],ingredients:'西兰花、蒜末',steps:'①西兰花掰小朵焯水1分钟；②少油爆香蒜末下西兰花翻炒加盐。'},
+  ],
+};
+/* 随机三餐搭配库 */
+const MEAL_COMBOS=[
+  {breakfast:'燕麦粥+煎蛋+香蕉',lunch:'可乐鸡翅+蒜蓉西兰花+米饭',dinner:'番茄鸡蛋面一碗'},
+  {breakfast:'全麦吐司+牛油果+牛奶',lunch:'宫保鸡丁+清炒油麦菜+杂粮饭',dinner:'冬瓜排骨汤+小馒头'},
+  {breakfast:'小米粥+茶叶蛋+苹果',lunch:'红烧豆腐+凉拌三丝+紫菜汤',dinner:'清汤面+卤蛋'},
+  {breakfast:'酸奶碗+坚果+蓝莓',lunch:'蒜苔炒肉+耗油生菜+红薯',dinner:'蔬菜沙拉+煮玉米'},
+  {breakfast:'豆浆+包子+橙子',lunch:'麻婆豆腐+清炒菠菜+米饭',dinner:'馄饨+凉拌黄瓜'},
+  {breakfast:'鸡蛋灌饼+豆浆',lunch:'糖醋里脊+干煸豆角+馒头',dinner:'皮蛋瘦肉粥+咸鸭蛋'},
+  {breakfast:'粥+咸菜+煮蛋',lunch:'回锅肉+蒜泥白肉+米饭',dinner:'阳春面+花生米'},
+  {breakfast:'三明治+拿铁',lunch:'咖喱鸡肉+炒空心菜+饭',dinner:'关东煮+饭团'},
+];
+
+function recipeData(){if(!db.recipe)db.recipe={};return db.recipe;}
+function renderRecipeMatch(){
+  const rd=recipeData();
+  return `
+  <div class="card">
+    <div class="card-title">🔍 模式1：报食材，自动匹配菜品</div>
+    <input class="f-input" id="recipeIngInput" value="${esc(rd.lastIngs||'')}" placeholder="输入你有的食材，如：土豆、牛肉、鸡蛋" style="margin-bottom:10px;">
+    <button class="add-btn-grad" onclick="matchRecipes()">🔎 匹配可做的菜</button>
+    <div id="recipeMatchResult" style="margin-top:12px;">${rd.lastMatch?renderMatchCards(rd.lastMatch):'<div class="hint">💡 输入食材后点击匹配，会自动推荐3-4道菜并标注热量～</div>'}</div>
+  </div>`;
+}
+function renderMatchCards(items){
+  if(!items||!items.length)return '<div class="empty-tip">没有匹配到菜品呢，换个食材试试 💕</div>';
+  return `<div style="margin-top:8px;">
+    <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:8px;">✅ 食材齐全可直接做（${items.length}道）</div>
+    ${items.map((it,i)=>`
+    <div class="rec-card" style="border-left:4px solid ${i%2===0?'var(--pink-deep)':'var(--blue-deep)'}">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+        <span style="font-size:16px;font-weight:700;color:var(--red);">${esc(it.name)}</span>
+        <div style="display:flex;gap:6px;">
+          <span class="pill" style="background:#FFF0E5;color:#E89230;font-size:10px;">${it.diff||'简单'}</span>
+          <span style="color:#7BC496;font-weight:700;font-size:13px;">约${it.cal}kcal</span>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--sub);margin-bottom:4px;">主料：${esc(it.ingredients||'')}</div>
+      <div style="font-size:12px;color:var(--text);line-height:1.6;background:rgba(189,224,254,.12);padding:8px;border-radius:10px;">${esc(it.steps)}</div>
+    </div>`).join('')}
+  </div>`;
+}
+function matchRecipes(){
+  const inp=document.getElementById('recipeIngInput');
+  const raw=(inp&&inp.value)||'';
+  if(!raw.trim()){alert('先输入食材哦～');return;}
+  const ings=raw.split(/[,，、\s]+/).map(s=>s.trim()).filter(Boolean);
+  const rd=recipeData();rd.lastIngs=raw;
+  /* 查找匹配的菜品（去重） */
+  const foundMap=new Map();
+  for(const ing of ings){
+    const list=RECIPE_DB[ing]||[];
+    for(const dish of list){
+      if(!foundMap.has(dish.name))foundMap.set(dish.name,dish);
+    }
+  }
+  const results=[...foundMap.values()].slice(0,4);
+  rd.lastMatch=results;save();
+  document.getElementById('recipeMatchResult').innerHTML=renderMatchCards(results);
+}
+
+
+function renderRecipeRandom(){
+  const idx=Math.floor(Math.random()*MEAL_COMBOS.length);
+  const m=MEAL_COMBOS[idx];
+  return `
+  <div class="card">
+    <div class="card-title">🎲 模式3：不知道吃啥？</div>
+    <div class="hint" style="margin-bottom:12px;">一键随机生成一套合理的家常三餐搭配</div>
+    <button class="add-btn-grad" onclick="renderAll()" style="width:100%;">🎲 随机分配今日三餐</button>
+    <div style="margin-top:16px;">
+      <div style="font-size:15px;font-weight:700;color:var(--red);margin-bottom:12px;">🎲 今日三餐随机搭配</div>
+      <div class="rec-card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:20px;">🌅</span><span style="font-weight:700;">早餐</span></div><div style="font-size:14px;background:linear-gradient(135deg,rgba(249,201,221,.2),rgba(189,224,254,.2));padding:12px;border-radius:12px;">${m.breakfast}</div></div>
+      <div class="rec-card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:20px;">☀️</span><span style="font-weight:700;">午餐</span></div><div style="font-size:14px;background:linear-gradient(135deg,rgba(249,201,221,.2),rgba(189,224,254,.2));padding:12px;border-radius:12px;">${m.lunch}</div></div>
+      <div class="rec-card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:20px;">🌙</span><span style="font-weight:700;">晚餐</span></div><div style="font-size:14px;background:linear-gradient(135deg,rgba(249,201,221,.2),rgba(189,224,254,.2));padding:12px;border-radius:12px;">${m.dinner}</div></div>
+      <button class="add-btn-grad" onclick="renderAll()" style="width:100%;margin-top:12px;background:linear-gradient(135deg,#BDE0FE,#F9C9DD);">🔄 换一套</button>
+    </div>
+  </div>`;
+}
+
+/* ==================================================
+  📹 自媒体
+================================================== */
+function mediaData(){if(!db.media)db.media={topics:[],viral:[],copies:[],bgms:[]};return db.media;}
+function renderMediaTopic(){
+  const md=mediaData();
+  const topics=md.topics||[];
+  const topicList=topics.map(t=>`
+    <div class="todo-item">
+      <span>💡</span>
+      <div class="todo-body">
+        <input class="todo-text" value="${esc(t.title)}" placeholder="灵感内容…" onchange="mediaEditTopic('${t.id}',this.value)">
+        <div style="font-size:11px;color:var(--sub);">${esc(t.platform||'')}${esc(t.category||'')?(' · '+esc(t.category)):''}${t.date?(' · '+t.date):''}</div>
+      </div>
+      <button class="del-btn" onclick="mediaDelTopic('${t.id}')">✕</button>
+    </div>`).join('')||'<div class="empty-tip">还没有灵感，下面手动添加一个吧～</div>';
+  return `
+  <div class="card">
+    <div class="card-title">💡 添加选题灵感</div>
+    <div style="font-size:13px;color:var(--sub);margin-bottom:10px;">随手记一个灵感，可随时点开编辑</div>
+    <div class="packing-add-row" style="flex-direction:column;align-items:stretch;gap:8px;">
+      <input class="f-input" id="topicInput" placeholder="输入一个灵感，如：周末citywalk路线vlog" style="padding:14px 16px;font-size:16px;" onkeydown="if(event.key==='Enter')addTopicManual()">
+      <button class="add-btn-grad" onclick="addTopicManual()" style="align-self:flex-end;padding:6px 18px;font-size:13px;">添加</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">📂 我的灵感 <span class="tag">共${topics.length}条</span></div>
+    ${topicList}
+  </div>`;
+}
+function mediaDelTopic(id){
+  const md=mediaData();
+  md.topics=(md.topics||[]).filter(x=>x.id!==id);save();renderAll();
+}
+function renderMediaTopicLib(){
+  const md=mediaData();
+  const topics=(md.topics||[]).slice().reverse();
+  const list=topics.map(t=>`
+    <div class="todo-item" style="cursor:default;">
+      <span>💡</span>
+      <div class="todo-body">
+        <div style="font-weight:600;">${esc(t.title)}</div>
+        <div style="font-size:11px;color:var(--sub);">${esc(t.platform||'')}${esc(t.category||'')?(' · '+esc(t.category)):''}${t.date?(' · '+t.date):''}</div>
+      </div>
+    </div>`).join('')||'<div class="empty-tip">「选题灵感」里添加的灵感会自动汇总到这里</div>';
+  return `
+  <div class="card">
+    <div class="card-title">📚 选题灵感库 <span class="tag">自动汇总 · 共${topics.length}条</span></div>
+    <div class="hint">这里自动记录「选题灵感」中的所有灵感，方便统一查阅与复用</div>
+    ${list}
+  </div>`;
+}
+function addTopicManual(){
+  const inp=document.getElementById('topicInput');
+  const title=(inp&&inp.value||'').trim();
+  if(!title)return;
+  const md=mediaData();
+  if(!md.topics)md.topics=[];
+  md.topics.unshift({id:uid(),title,platform:'',category:'',date:state.date,manual:true});
+  save();if(inp)inp.value='';renderAll();
+}
+function mediaEditTopic(id,v){
+  const md=mediaData();
+  const t=(md.topics||[]).find(x=>x.id===id);
+  if(t){t.title=v;save();}
+}
+/* --- 文案 & BGM（双子标签：文案｜BGM） --- */
+function switchCopy(v){state.copySub=v;renderAll();}
+function renderMediaCopyBgm(){
+  const md=mediaData();
+  if(!md.copies)md.copies=[];
+  if(!md.bgms)md.bgms=[];
+  const isCopy=(state.copySub!=='bgm');
+  const copyHtml=`
+    <div class="card">
+      <div class="card-title">📝 文案灵感</div>
+      <div class="hint">随手记一段文案，可随时点开编辑</div>
+      <div class="packing-add-row" style="flex-direction:column;align-items:stretch;gap:8px;">
+        <input class="f-input" id="copyInput" placeholder="写一段文案，如：周末citywalk的治愈系旁白…" style="padding:14px 16px;font-size:15px;" onkeydown="if(event.key==='Enter')addCopy()">
+        <button class="add-btn-grad" onclick="addCopy()" style="align-self:flex-end;padding:6px 18px;font-size:13px;">添加</button>
+      </div>
+      <div style="margin-top:12px;">
+        ${md.copies.length?md.copies.map(c=>`<div class="todo-item"><span>📝</span><div class="todo-body"><input class="todo-text" value="${esc(c.text)}" placeholder="文案内容…" onchange="copyEdit('${c.id}',this.value)"></div><button class="del-btn" onclick="copyDel('${c.id}')">✕</button></div>`).join(''):'<div class="empty-tip">还没有文案，上面加一条吧～</div>'}
+      </div>
+    </div>`;
+  const bgmHtml=`
+    <div class="card">
+      <div class="card-title">🎵 BGM 库</div>
+      <div class="hint">添加抖音视频链接，点击 ▶️ 直接播放</div>
+      <div class="packing-add-row" style="flex-direction:column;align-items:stretch;gap:8px;">
+        <input class="f-input" id="bgmTitleInput" placeholder="BGM名称，如：夏日午后钢琴曲" style="padding:12px 14px;font-size:15px;">
+        <input class="f-input" id="bgmUrlInput" placeholder="抖音视频链接 https://v.douyin.com/..." style="padding:12px 14px;font-size:15px;" onkeydown="if(event.key==='Enter')addBgm()">
+        <button class="add-btn-grad" onclick="addBgm()" style="align-self:flex-end;padding:6px 18px;font-size:13px;">添加</button>
+      </div>
+      <div style="margin-top:12px;">
+        ${md.bgms.length?md.bgms.map(it=>`<div class="todo-item"><span class="bgm-play" onclick="playBgm('${it.id}')">▶️</span><div class="todo-body"><input class="todo-text" value="${esc(it.title)}" placeholder="BGM名称" onchange="bgmEditTitle('${it.id}',this.value)"><input class="todo-note" value="${esc(it.url)}" placeholder="抖音视频链接" onchange="bgmEditUrl('${it.id}',this.value)"></div><button class="del-btn" onclick="bgmDel('${it.id}')">✕</button></div>`).join(''):'<div class="empty-tip">还没有BGM，上面加一条吧～</div>'}
+      </div>
+    </div>`;
+  return `
+  <div class="card">
+    <div class="card-title">📝 文案 &amp; BGM</div>
+    <div class="diet-card-subtitle">左边写文案，右边存BGM 🎀</div>
+    <div class="diet-subtabs">
+      <div class="diet-subtab ${isCopy?'active':''}" onclick="switchCopy('copy')">📝 文案</div>
+      <div class="diet-subtab ${!isCopy?'active':''}" onclick="switchCopy('bgm')">🎵 BGM</div>
+    </div>
+    ${isCopy?copyHtml:bgmHtml}
+  </div>`;
+}
+function addCopy(){
+  const inp=document.getElementById('copyInput');
+  const text=(inp&&inp.value||'').trim();
+  if(!text)return;
+  const md=mediaData();
+  if(!md.copies)md.copies=[];
+  md.copies.unshift({id:uid(),text});
+  save();if(inp)inp.value='';renderAll();
+}
+function copyEdit(id,v){const md=mediaData();const c=(md.copies||[]).find(x=>x.id===id);if(c){c.text=v;save();}}
+function copyDel(id){const md=mediaData();md.copies=(md.copies||[]).filter(x=>x.id!==id);save();renderAll();}
+function addBgm(){
+  const t=document.getElementById('bgmTitleInput');
+  const u=document.getElementById('bgmUrlInput');
+  const title=(t&&t.value||'').trim();
+  const url=(u&&u.value||'').trim();
+  if(!url){alert('请输入抖音视频链接哦～');return;}
+  const md=mediaData();
+  if(!md.bgms)md.bgms=[];
+  md.bgms.unshift({id:uid(),title:title||'BGM',url});
+  save();if(t)t.value='';if(u)u.value='';renderAll();
+}
+function bgmEditTitle(id,v){const md=mediaData();const it=(md.bgms||[]).find(x=>x.id===id);if(it){it.title=v;save();}}
+function bgmEditUrl(id,v){const md=mediaData();const it=(md.bgms||[]).find(x=>x.id===id);if(it){it.url=v;save();}}
+function bgmDel(id){const md=mediaData();md.bgms=(md.bgms||[]).filter(x=>x.id!==id);save();renderAll();}
+function playBgm(id){
+  const md=mediaData();
+  const it=(md.bgms||[]).find(x=>x.id===id);
+  if(it&&it.url){window.open(it.url,'_blank');}
+}
+function renderMediaViral(){
+  return `
+  <div class="card">
+    <div class="card-title">🎬 爆款二创工坊</div>
+    <div class="hint">输入爆款链接或标题，AI帮你拆解并生成适合你人设的二创脚本方向</div>
+    <textarea class="idea-textarea" id="viralInput" placeholder="粘贴爆款视频标题或链接，例如：
+「一人食｜便利店10块钱做出日剧同款晚餐」
+https://www.xiaohongshu.com/..." style="min-height:70px;"></textarea>
+    <button class="add-btn-grad" onclick="analyzeViral()" style="width:100%;margin-top:8px;">🔬 分析爆款 & 生成二创思路</button>
+    <div id="viralResult" style="margin-top:12px;"></div>
+  </div>`;
+}
+function analyzeViral(){
+  const inp=document.getElementById('viralInput');
+  const text=(inp&&inp.value||'').trim();
+  if(!text){alert('请输入要分析的爆款内容哦～');return;}
+  const result=document.getElementById('viralResult');
+  result.innerHTML=`<div class="rec-card" style="border-left:4px solid var(--pink-deep);">
+    <div style="font-weight:700;color:var(--red);margin-bottom:6px;">🔬 爆款分析结果</div>
+    <div style="font-size:12px;line-height:1.8;color:var(--text);">
+    <b>原标题：</b>${esc(text)}<br>
+    <b>📊 爆款要素：</b>情绪共鸣 + 低成本实操 + 视觉治愈<br>
+    <b>🎯 二创角度建议：</b><br>
+    ① 「沪漂版」—— 同类内容加入上海本地元素（地铁/便利店/梧桐区）<br>
+    ② 「反差版」—— 标题加「月薪Xk也敢…」制造反差<br>
+    ③ 「系列化」—— 做成「挑战N天」系列增加追更动力<br>
+    <b>📝 推荐标题：</b><br>
+    · 沪漂第N天｜${text.length>15?text.slice(0,15)+'…':text}<br>
+    · 月薪8k敢这么活？${text.length>12?text.slice(0,12)+'…':text}｜打工人真实记录
+    </div>
+  </div>`;
+}
+
+/* ==================================================
+  ✈️ 旅行
+================================================== */
+function travelData(){if(!db.travel)db.travel={packing:[],itinerary:[]};return db.travel;}
+const PACKING_DEFAULTS=[
+  '身份证/证件','充电器&充电宝','护肤品','速干浴巾','换洗小衣','娃子','雨伞','化妆品',
+];
+function initPacking(){
+  const td=travelData();
+  if(!td.packing||!td.packing.length){
+    td.packing=PACKING_DEFAULTS.map((name,i)=>({id:uid(),name,checked:false,order:i}));
+    save();
+  }
+  return td.packing;
+}
+function renderTravelPacking(){
+  const items=initPacking();
+  const checkedCount=items.filter(x=>x.checked).length;
+  const rows=items.map((it,i)=>`
+    <div class="packing-item" data-id="${it.id}">
+      <span class="pack-grip">⠿</span>
+      <label class="packing-check">
+        <input type="checkbox" ${it.checked?'checked':''} onchange="togglePackItem('${it.id}')">
+        <span class="packing-checkmark"></span>
+      </label>
+      <input class="packing-name-input ${it.checked?'packed':''}" value="${esc(it.name)}" onchange="packEditName('${it.id}',this.value)">
+      <button class="packing-del" onclick="delPackItem('${it.id}')">×</button>
+    </div>`).join('');
+  return `
+  <div class="card">
+    <div class="card-title">🧳 出行行李清单</div>
+    <div style="font-size:11px;color:var(--sub);margin-bottom:12px;">已打包 ${checkedCount}/${items.length} 件 · 长按整行可拖动排序</div>
+    <div class="packing-list">${rows}</div>
+    <div class="packing-add-row" style="flex-direction:column;align-items:stretch;gap:8px;">
+      <input class="f-input" id="packNewInput" placeholder="新增物品" style="padding:14px 16px;font-size:16px;" onkeydown="if(event.key==='Enter')addPackItem()">
+      <button class="add-btn-grad" onclick="addPackItem()" style="align-self:flex-end;padding:6px 18px;font-size:13px;">添加</button>
+    </div>
+    <button class="mini-btn" style="width:100%;margin-top:10px;background:linear-gradient(135deg,rgba(189,224,254,.2),rgba(249,201,221,.2));" onclick="resetPacking()">🔄 重置勾选（下次出行）</button>
+  </div>`;
+}
+function togglePackItem(id){
+  const items=initPacking();
+  const it=items.find(x=>x.id===id);
+  if(it){it.checked=!it.checked;save();renderAll();}
+}
+function packEditName(id,v){
+  const items=initPacking();
+  const it=items.find(x=>x.id===id);
+  if(it){it.name=v;save();}   /* 不重渲染，避免输入时失焦跳动 */
+}
+function reorderPacking(ids){
+  const items=initPacking();
+  const map={};items.forEach(it=>map[it.id]=it);
+  const ordered=ids.map(id=>map[id]).filter(Boolean);
+  if(ordered.length)travelData().packing=ordered;
+  save();renderAll();
+}
+/* 长按拖拽排序（移动端 touch） */
+function setupPackingDrag(){
+  const root=document.getElementById('content');
+  if(!root||root._pkDragInited)return;
+  root._pkDragInited=true;
+  let pressTimer=null,dragging=false,el=null;
+  const isCtrl=t=>t&&(t.closest('input')||t.closest('button')||t.closest('label'));
+  root.addEventListener('touchstart',e=>{
+    const item=e.target.closest('.packing-item');
+    if(!item||isCtrl(e.target))return;
+    el=item;
+    pressTimer=setTimeout(()=>{dragging=true;el.classList.add('dragging');if(navigator.vibrate)navigator.vibrate(40);},350);
+  },{passive:true});
+  root.addEventListener('touchmove',e=>{
+    if(!dragging||!el)return;
+    e.preventDefault();
+    const y=e.touches[0].clientY,list=el.parentNode;
+    let ref=null;
+    list.querySelectorAll('.packing-item:not(.dragging)').forEach(o=>{
+      const r=o.getBoundingClientRect();
+      if(y<r.top+r.height/2&&!ref)ref=o;
+    });
+    if(ref)list.insertBefore(el,ref);else list.appendChild(el);
+  },{passive:false});
+  const end=()=>{
+    if(pressTimer)clearTimeout(pressTimer);
+    if(!dragging){el=null;return;}
+    dragging=false;
+    if(el)el.classList.remove('dragging');
+    const ids=[...root.querySelectorAll('.packing-item')].map(x=>x.getAttribute('data-id'));
+    el=null;reorderPacking(ids);
+  };
+  root.addEventListener('touchend',end);
+  root.addEventListener('touchcancel',end);
+}
+function addPackItem(){
+  const inp=document.getElementById('packNewInput');
+  const name=(inp&&inp.value||'').trim();
+  if(!name)return;
+  const items=initPacking();
+  items.push({id:uid(),name,checked:false,order:items.length});
+  save();if(inp)inp.value='';renderAll();
+}
+function delPackItem(id){
+  let items=initPacking();
+  items=items.filter(x=>x.id!==id);
+  travelData().packing=items;save();renderAll();
+}
+function resetPacking(){
+  const items=initPacking();
+  items.forEach(it=>{it.checked=false;});
+  save();renderAll();
+}
+function renderTravelItinerary(){
+  const td=travelData();
+  const itins=td.itinerary||[];
+  const rows=itins.map((it,i)=>`
+    <div class="rec-card">
+      <div class="rec-head"><span class="rec-date">Day ${i+1} · ${esc(it.date||'')}</span><button class="del-btn" onclick="delItin('${it.id}')">✕</button></div>
+      <div style="font-weight:700;color:var(--red);margin-bottom:4px;">${esc(it.title)}</div>
+      <div style="font-size:12px;color:var(--text);line-height:1.6;white-space:pre-wrap;">${esc(it.content)}</div>
+    </div>`).join('')||'<div class="empty-tip">还没有行程规划哦，开始规划你的旅行吧 ✈️</div>';
+  return `
+  <div class="card">
+    <div class="card-title">📋 行程攻略</div>
+    ${rows}
+    <button class="add-btn-grad" style="width:100%;margin-top:8px;" onclick="addItin()">✨ 新增一天行程</button>
+  </div>`;
+}
+function addItin(){
+  const td=travelData();
+  td.itinerary.push({id:uid(),date:'',title:'',content:''});
+  save();renderAll();
+}
+function delItin(id){
+  const td=travelData();
+  td.itinerary=(td.itinerary||[]).filter(x=>x.id!==id);save();renderAll();
+}
+/* 行程编辑通过直接绑定 */
+document.addEventListener('DOMContentLoaded',()=>{
+  setTimeout(()=>{
+    const app=document.getElementById('app');
+    if(app)app.addEventListener('change',(e)=>{
+      if(e.target&&e.target.dataset&&e.target.dataset.itinField){
+        const field=e.target.dataset.itinField;
+        const id=e.target.dataset.itinId;
+        const td=travelData();
+        const it=(td.itinerary||[]).find(x=>x.id===id);
+        if(it){it[field]=e.target.value;save();}
+      }
+      if(e.target&&e.target.dataset&&e.target.dataset.packName){
+        const id=e.target.dataset.packId;
+        const items=initPacking();
+        const it=items.find(x=>x.id===id);
+        if(it){it.name=e.target.value;save();}
+      }
+    },true);
+  },500);
+});
+
+/* ================== 渲染表 ================== */
+const RENDERERS={
+  plan:[renderPlanDiet,renderPlanTodo,renderPlanSchedule],
+  account:[renderAccToday,renderAccMonth,renderAccBudget,renderAccReview],
+  achieve:[renderAchieve],
+  recipe:[renderRecipeMatch,renderRecipeRandom],
+  sport:[renderSportDay,renderSportBody],
+  tarot:[renderTarot],
+  tree:[renderTreeEssay,renderTreeMood,renderTreeWish,renderTreeIdea],
+  media:[renderMediaTopic,renderMediaViral,renderMediaTopicLib,renderMediaCopyBgm],
+  travel:[renderTravelPacking,renderTravelItinerary],
+};
+
+/* 桌面端默认展开侧边栏 */
+if(window.innerWidth>560)document.getElementById('sidebar').classList.remove('collapsed');
+renderAll();
+if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{});}
+/* 走到这里说明整个文件完整加载了 */
+window.__loadOK=true;
+setTimeout(function(){
+  if(!window.__loadOK){
+    document.body.innerHTML='<div style="padding:24px;font:14px/1.7 -apple-system,sans-serif;color:#6B5B6E">'
+      +'<div style="font-size:18px;font-weight:700;color:#E75A7C">⚠️ 文件不完整</div>'
+      +'<p>上传的文件被截断了，请重新完整上传 index.html。</p></div>';
+  }
+},1500);
